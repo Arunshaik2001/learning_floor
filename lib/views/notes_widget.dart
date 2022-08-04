@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:learning_floor/dao/notes_dao.dart';
 import 'package:learning_floor/utility/utility.dart';
@@ -25,12 +21,19 @@ class _NotesWidgetState extends State<NotesWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(widget.title),actions: [
-          IconButton(tooltip:"Delete All",onPressed: () async{
-            await widget.dao.deleteAllNotes();
-            setState(() {});
-          }, icon: const Icon(Icons.delete_forever))
-        ],),
+        appBar: AppBar(
+          title: Text(widget.title),
+          actions: [
+            IconButton(
+                tooltip: "Delete All",
+                onPressed: () async {
+                  print("asdada"+(await widget.dao.findAllNotesAsStream().length).toString());
+                  await widget.dao.deleteAllNotes();
+                  setState(() {});
+                },
+                icon: const Icon(Icons.delete_forever))
+          ],
+        ),
         body: SafeArea(
           child: Column(
             children: <Widget>[
@@ -39,7 +42,8 @@ class _NotesWidgetState extends State<NotesWidget> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Utility.openAddNodeDialog(context,widget.dao, 'Add Note'),
+          onPressed: () =>
+              Utility.openAddNodeDialog(context, widget.dao, 'Add Note'),
           tooltip: 'Add Note',
           child: const Text(
             '+',
